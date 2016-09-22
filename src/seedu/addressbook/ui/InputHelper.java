@@ -14,36 +14,35 @@ public class InputHelper {
     }
 
     /**
-     * Adds `input` to input history and resets navigation index to latest input
+     * Adds `input` to input history and resets navigation index to (1 + index of latest input)
      */
     public void addToInputHistory(String input) {
         inputHistory.add(input);
-        inputHistoryNavIndex = inputHistory.size() - 1;
+        inputHistoryNavIndex = inputHistory.size();
     }
 
     /**
-     * Moves the navigation index one step earlier, if possible
+     * Moves the navigation index one step earlier
+     * Index can be out of range of input history
      */
-    public void moveBackInputHistory() {
-        if (inputHistoryNavIndex > 0) {
-            inputHistoryNavIndex --;
-        }
+    public void moveBackInInputHistory() {
+        inputHistoryNavIndex --;
     }
 
     /**
-     * Moves the navigation index one step later, if possible
+     * Moves the navigation index one step later
+     * Index can be out of range of input history
      */
-    public void moveForwardInputHistory() {
-        if (inputHistoryNavIndex < inputHistory.size() - 1) {
-            inputHistoryNavIndex ++;
-        }
+    public void moveForwardInInputHistory() {
+        inputHistoryNavIndex ++;
     }
 
     /**
      * Returns input at navigation index in input history
+     * If index is out of range of navigation index, empty string is returned
      */
-    public String getCurInputHistory() {
-        if (inputHistoryNavIndex >= 0) {
+    public String getCurInputInHistory() {
+        if (inputHistoryNavIndex >= 0 && inputHistoryNavIndex < inputHistory.size()) {
             return inputHistory.get(inputHistoryNavIndex);
         } else {
             return "";
