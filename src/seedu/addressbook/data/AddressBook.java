@@ -1,5 +1,6 @@
 package seedu.addressbook.data;
 
+import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.*;
 import seedu.addressbook.data.person.UniquePersonList.*;
 import seedu.addressbook.data.tag.Tag;
@@ -103,6 +104,10 @@ public class AddressBook {
      */
     public boolean containsTag(Tag key) {
         return allTags.contains(key);
+    }
+    
+    public void editPerson(int toEdit, String editToDetails) throws PersonNotFoundException, IllegalValueException {
+        allPersons.editPerson(toEdit, editToDetails);
     }
 
     /**
