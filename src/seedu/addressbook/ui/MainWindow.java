@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import seedu.addressbook.commands.ExitCommand;
 import seedu.addressbook.logic.Logic;
 import seedu.addressbook.commands.CommandResult;
@@ -22,6 +23,7 @@ public class MainWindow {
 
     private Logic logic;
     private Stoppable mainApp;
+    private InputHelper inputHelper = new InputHelper();
 
     public MainWindow(){
     }
@@ -40,7 +42,6 @@ public class MainWindow {
     @FXML
     private TextField commandInput;
 
-
     @FXML
     void onCommand(ActionEvent event) {
         try {
@@ -51,10 +52,27 @@ public class MainWindow {
                 return;
             }
             displayResult(result);
+            inputHelper.addToInputHistory(userCommandText);
             clearCommandInput();
         } catch (Exception e) {
             display(e.getMessage());
             throw new RuntimeException(e);
+        }
+    }
+
+    @FXML
+    void onKeyPressed(KeyEvent event) {
+        switch (event.getCode()) {
+            case UP:
+                inputHelper.moveBackInInputHistory();
+                commandInput.setText(inputHelper.getCurInputInHistory());
+                break;
+            case DOWN:
+                inputHelper.moveForwardInInputHistory();
+                commandInput.setText(inputHelper.getCurInputInHistory());
+                break;
+            default:
+                break;
         }
     }
 
