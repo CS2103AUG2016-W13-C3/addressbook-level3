@@ -88,6 +88,9 @@ public class Parser {
                 
             case SearchCommand.COMMAND_WORD:
             	return prepareSearch(arguments);
+            
+            case EditCommand.COMMAND_WORD:
+                return prepareEdit(arguments);
 
             case HelpCommand.COMMAND_WORD: // Fallthrough
             default:
@@ -125,6 +128,19 @@ public class Parser {
         } catch (IllegalValueException ive) {
             return new IncorrectCommand(ive.getMessage());
         }
+    }
+    
+    /**
+     * Parses arguments in the context of the edit person command.
+     *
+     * @param args full command args string
+     * @return the prepared command
+     */
+    private Command prepareEdit(String args) {
+        String[] tokens = args.split(" ");
+        final int targetIndex = Integer.parseInt(tokens[1]);
+        final String editDetails = tokens[2];
+        return new EditCommand(targetIndex, editDetails);
     }
 
     /**
