@@ -250,9 +250,9 @@ public class ParserTest {
         try {
             return new Person(
                 new Name(Name.EXAMPLE),
-                new Phone(Phone.EXAMPLE, true),
-                new Email(Email.EXAMPLE, false),
-                new Address(Address.EXAMPLE, true),
+                new Phone(new String[] {Phone.EXAMPLE}, true),
+                new Email(new String[] {Email.EXAMPLE}, false),
+                new Address(new String[] {Address.EXAMPLE}, true),
                 new UniqueTagList(new Tag("tag1"), new Tag("tag2"), new Tag("tag3"))
             );
         } catch (IllegalValueException ive) {

@@ -1,10 +1,19 @@
 package seedu.addressbook.commands;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.exception.IllegalValueException;
+import seedu.addressbook.data.person.Address;
+import seedu.addressbook.data.person.Email;
+import seedu.addressbook.data.person.Name;
 import seedu.addressbook.data.person.Person;
+import seedu.addressbook.data.person.Phone;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.data.person.UniquePersonList.PersonNotFoundException;
+import seedu.addressbook.data.tag.Tag;
+import seedu.addressbook.data.tag.UniqueTagList;
 
 public class EditCommand extends Command {
 
@@ -19,19 +28,48 @@ public class EditCommand extends Command {
     public static final String MESSAGE_SUCCESS = "Person's details succesfully edited";
     public static final String MESSAGE_INVALID_NAME = "Proposed index is invalid.";
 
-    private String editedInfo;
+    private String[] editPhones;
+    private String[] editEmails;
+    private String[] editAddresses;
+    private boolean editPhonePrivacy;
+    private boolean editEmailPrivacy;
+    private boolean editAddressPrivacy;
+    private UniqueTagList taglist;
     
-    public EditCommand(int targetIndex, String details) {
-        super(targetIndex);
-        this.editedInfo = details;
+    /**
+     * Convenience constructor using raw values.
+     * @param targetIndex 
+     *
+     * @throws IllegalValueException if any of the raw values are invalid
+     */
+    public EditCommand(int targetIndex, String personIndex,
+                      String[] phones, boolean isPhonePrivate,
+                      String[] emails, boolean isEmailPrivate,
+                      String[] addresses, boolean isAddressPrivate,
+                      Set<String> tags) throws IllegalValueException {
+        final Set<Tag> tagSet = new HashSet<>();
+        for (String tagName : tags) {
+            tagSet.add(new Tag(tagName));
+        }
         
+        this.editPhones = phones;
+        this.editEmails = emails;
+        this.editAddresses = addresses;
+        this.editPhonePrivacy = isPhonePrivate;
+        this.editEmailPrivacy = isEmailPrivate;
+        this.editAddressPrivacy = isAddressPrivate;
+        this.taglist = new UniqueTagList(tagSet);
     }
     
     @Override
     public CommandResult execute() {
         try {
             final ReadOnlyPerson target = getTargetPerson();
-            addressBook.editPerson(getTargetIndex(), editedInfo);
+            addressBook.editPerson(getTargetIndex(), 
+                    editPhones, editPhonePrivacy, 
+                    editEmails, editEmailPrivacy, 
+                    editAddresses, editAddressPrivacy,
+                    taglist);
         } catch (PersonNotFoundException e) {
             return new CommandResult(Messages.MESSAGE_PERSON_NOT_IN_ADDRESSBOOK);
         } catch (IllegalValueException e) {

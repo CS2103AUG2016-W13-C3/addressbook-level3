@@ -14,6 +14,8 @@ import static seedu.addressbook.common.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
  */
 public class Parser {
 
+    public static final String FIELDS_DELIMITER = "/";
+    
     public static final Pattern PERSON_INDEX_ARGS_FORMAT = Pattern.compile("(?<targetIndex>.+)");
 
     public static final Pattern KEYWORDS_ARGS_FORMAT =
@@ -114,13 +116,13 @@ public class Parser {
             return new AddCommand(
                     matcher.group("name"),
 
-                    matcher.group("phone"),
+                    matcher.group("phone").split(FIELDS_DELIMITER),
                     isPrivatePrefixPresent(matcher.group("isPhonePrivate")),
 
-                    matcher.group("email"),
+                    matcher.group("email").split(FIELDS_DELIMITER),
                     isPrivatePrefixPresent(matcher.group("isEmailPrivate")),
 
-                    matcher.group("address"),
+                    matcher.group("address").split(FIELDS_DELIMITER),
                     isPrivatePrefixPresent(matcher.group("isAddressPrivate")),
 
                     getTagsFromArgs(matcher.group("tagArguments"))
@@ -137,10 +139,32 @@ public class Parser {
      * @return the prepared command
      */
     private Command prepareEdit(String args) {
-        String[] tokens = args.split(" ");
-        final int targetIndex = Integer.parseInt(tokens[1]);
-        final String editDetails = tokens[2];
-        return new EditCommand(targetIndex, editDetails);
+        final Matcher matcher = PERSON_DATA_ARGS_FORMAT.matcher(args.trim());
+        // Validate arg string format
+        if (!matcher.matches()) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
+        }
+        try {
+            final int targetIndex = Integer.parseInt(args.substring(0, 1));
+            
+            return new EditCommand(
+                    targetIndex,
+                    matcher.group("name"),
+
+                    matcher.group("phone").split(FIELDS_DELIMITER),
+                    isPrivatePrefixPresent(matcher.group("isPhonePrivate")),
+
+                    matcher.group("email").split(FIELDS_DELIMITER),
+                    isPrivatePrefixPresent(matcher.group("isEmailPrivate")),
+
+                    matcher.group("address").split(FIELDS_DELIMITER),
+                    isPrivatePrefixPresent(matcher.group("isAddressPrivate")),
+
+                    getTagsFromArgs(matcher.group("tagArguments"))
+            );
+        } catch (IllegalValueException | NumberFormatException e) {
+            return new IncorrectCommand(e.getMessage());
+        }
     }
 
     /**

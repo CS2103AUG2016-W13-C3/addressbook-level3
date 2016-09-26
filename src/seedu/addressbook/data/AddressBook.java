@@ -106,8 +106,12 @@ public class AddressBook {
         return allTags.contains(key);
     }
     
-    public void editPerson(int toEdit, String editToDetails) throws PersonNotFoundException, IllegalValueException {
-        allPersons.editPerson(toEdit, editToDetails);
+    public void editPerson(int toEdit, 
+            String[] phones, boolean isPhonePrivate, 
+            String[] emails, boolean isEmailPrivate,
+            String[] addresses, boolean isAddressPrivate,
+            UniqueTagList taglist) throws PersonNotFoundException, IllegalValueException {
+        allPersons.edit(toEdit, phones, isPhonePrivate, emails, isEmailPrivate, addresses, isAddressPrivate, taglist);
     }
 
     /**
