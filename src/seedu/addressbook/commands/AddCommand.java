@@ -19,8 +19,8 @@ public class AddCommand extends Command {
             + "Contact details can be marked private by prepending 'p' to the prefix.\n\t"
             + "Parameters: NAME [p]p/PHONE [p]e/EMAIL [p]a/ADDRESS [t/TAG]...\n\t"
             + "Parameters: NAME [p]p/PHONE1/PHONE2/... [p]e/EMAIL1/EMAIL2/... [p]a/ADDRESS1/ADDRESS2/...  [t/TAG]...\n\t"
-            + "Examples: " + COMMAND_WORD
-            + " John Doe p/98765432 e/johnd@gmail.com a/311, Clementi Ave 2, #02-25 t/friends t/owesMoney"
+            + "Examples: \n" + COMMAND_WORD
+            + " John Doe p/98765432 e/johnd@gmail.com a/311, Clementi Ave 2, #02-25 t/friends t/owesMoney\n" + COMMAND_WORD
             + " Betty p/12345678/45294724 e/betty@gmail.com/betty@yahoo.com a/311, Clementi Ave 2, #02-25 t/friends t/owesMoney";
     
     public static final String MESSAGE_SUCCESS = "New person added: %1$s";
