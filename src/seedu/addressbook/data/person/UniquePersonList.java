@@ -3,6 +3,7 @@ package seedu.addressbook.data.person;
 import seedu.addressbook.common.Utils;
 import seedu.addressbook.data.exception.DuplicateDataException;
 import seedu.addressbook.data.exception.IllegalValueException;
+import seedu.addressbook.data.tag.UniqueTagList;
 
 import java.util.*;
 
@@ -101,13 +102,31 @@ public class UniquePersonList implements Iterable<Person> {
      * @throws PersonNotFoundException if no such person could be found in the list.
      * @throws IllegalValueException 
      */
-    public void editPerson(int index, String editDetails) throws PersonNotFoundException, IllegalValueException {
-        if (internalList.get(index-1) == null) {
+    public void edit(int personIndex, String[] phones, boolean isPhonePrivate, 
+            String[] emails, boolean isEmailPrivate,
+            String[] addresses, boolean isAddressPrivate,
+            UniqueTagList taglist) throws PersonNotFoundException, IllegalValueException {
+        if (internalList.get(personIndex - 1) == null) {
             throw new PersonNotFoundException();
         }
             
-        Person person = internalList.get(index-1);
-        person.changeInfo(editDetails);
+        Person person = internalList.get(personIndex - 1);
+        
+        if (phones != null) {
+            person.changePhones(phones);
+        }
+        
+        if (emails != null) {
+            person.changeEmail(emails);
+        }
+        
+        if (addresses != null) {
+            person.changeAddresses(addresses);
+        }
+        
+        person.changePhonePrivacy(isPhonePrivate);
+        person.changeEmailPrivacy(isEmailPrivate);
+        person.changeAddressPrivacy(isAddressPrivate);
     }
 
     /**

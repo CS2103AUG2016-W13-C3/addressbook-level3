@@ -464,9 +464,9 @@ public class LogicTest {
 
         Person adam() throws Exception {
             Name name = new Name("Adam Brown");
-            Phone privatePhone = new Phone("111111", true);
-            Email email = new Email("adam@gmail.com", false);
-            Address privateAddress = new Address("111, alpha street", true);
+            Phone privatePhone = new Phone(new String[] {"111111"}, true);
+            Email email = new Email(new String[] {"adam@gmail.com"}, false);
+            Address privateAddress = new Address(new String[] {"111, alpha street"}, true);
             Tag tag1 = new Tag("tag1");
             Tag tag2 = new Tag("tag2");
             UniqueTagList tags = new UniqueTagList(tag1, tag2);
@@ -484,9 +484,9 @@ public class LogicTest {
         Person generatePerson(int seed, boolean isAllFieldsPrivate) throws Exception {
             return new Person(
                     new Name("Person " + seed),
-                    new Phone("" + Math.abs(seed), isAllFieldsPrivate),
-                    new Email(seed + "@email", isAllFieldsPrivate),
-                    new Address("House of " + seed, isAllFieldsPrivate),
+                    new Phone(new String[] {"" + Math.abs(seed)}, isAllFieldsPrivate),
+                    new Email(new String[] {seed + "@email"}, isAllFieldsPrivate),
+                    new Address(new String[] {"House of " + seed}, isAllFieldsPrivate),
                     new UniqueTagList(new Tag("tag" + Math.abs(seed)), new Tag("tag" + Math.abs(seed + 1)))
             );
         }
@@ -580,9 +580,9 @@ public class LogicTest {
          Person generatePersonWithName(String name) throws Exception {
             return new Person(
                     new Name(name),
-                    new Phone("1", false),
-                    new Email("1@email", false),
-                    new Address("House of 1", false),
+                    new Phone(new String[] {"1"}, false),
+                    new Email(new String[] {"1@email"}, false),
+                    new Address(new String[] {"House of 1"}, false),
                     new UniqueTagList(new Tag("tag"))
             );
         }

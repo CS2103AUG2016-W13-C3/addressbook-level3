@@ -44,9 +44,10 @@ public class SearchCommand extends Command {
     private List<ReadOnlyPerson> getPersonsWithSearchedPhone(String phone) {
         final List<ReadOnlyPerson> matchedPersons = new ArrayList<>();
         for (ReadOnlyPerson person : addressBook.getAllPersons()) {
-            final String phoneNumber = person.getPhone().value;
-            if (phoneNumber.equals(phone)) {
-                matchedPersons.add(person);
+            for (final String phoneNumber : person.getPhone().value) {
+                if (phoneNumber.equals(phone)) {
+                    matchedPersons.add(person);
+                }
             }
         }
         return matchedPersons;
